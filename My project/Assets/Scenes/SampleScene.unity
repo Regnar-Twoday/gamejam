@@ -483,6 +483,10 @@ PrefabInstance:
       propertyPath: thrustForce
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1543950811428242678, guid: fe8472e4338142742a7b2ffb29ebc026, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 3580757564229684502, guid: 87f65ed2f8559144d9985117870736c3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
