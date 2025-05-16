@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Shield
   - SpeedUp
+  - Reverse
+  - DoubleGun
   layers:
   - Default
   - TransparentFX
