@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class Enemy : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -17,7 +18,7 @@ public class Enemy : MonoBehaviour
     public bool orientToMoveDirection = true;
     
     private Vector3 movementDirection;
-
+    
     void Start()
     {
         Debug.Log("Initial scale of enemy: " + transform.localScale);
