@@ -11,8 +11,14 @@ public class PlayerController : MonoBehaviour
     public float deceleration = 0.98f;
     public float projectileSpeed = 10f;
     public float shieldLifetime = 8f;
+    public float speedUpTime = 8f;
+    public float reverseTime = 10f;
+    public float doubleGunTime = 10f;
+    public bool reverse = false;
+    public bool doubleGun = false;
     public GameObject projectilePrefab;
     public GameObject shield;
+    public BackgroundScript background;
 
     [SerializeField] PolygonCollider2D collider;
 
@@ -53,17 +59,53 @@ public class PlayerController : MonoBehaviour
 
         // Rotate
         float rotationInput = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.forward * -rotationInput * rotationSpeed * Time.deltaTime);
+        if (reverse)
+        {
+            transform.Rotate(Vector3.forward * rotationInput * rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Rotate(Vector3.forward * -rotationInput * rotationSpeed * Time.deltaTime);
+        }
 
         // Thrust
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (reverse)
         {
-            Shoot();
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                Shoot();
+            }
+        } else
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Shoot();
+            }
         }
     }
 
     void FixedUpdate()
     {
+        if (reverse)
+        {
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            {
+                rb.AddForce(-transform.up * thrustForce);
+            }
+
+            if (rb.linearVelocity.magnitude > maxSpeed)
+            {
+                rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+            }
+
+            if (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.W))
+            {
+                rb.linearVelocity *= deceleration;
+            }
+
+            return;
+        }
+
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             rb.AddForce(transform.up * thrustForce);
@@ -83,27 +125,52 @@ public class PlayerController : MonoBehaviour
     void Shoot()
     {
         // Spawn the projectile at the ship’s position (or firePoint if assigned)
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        if (doubleGun)
+        {
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+            GameObject projectile2 = Instantiate(projectilePrefab, transform.position, transform.rotation);
+            projectile.transform.Rotate(0f, 0f, 10);
+            projectile2.transform.Rotate(0f, 0f, -10);
+        }
+        else
+        {
+            Instantiate(projectilePrefab, transform.position, transform.rotation);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Asteroid"))
-        {
-            Destroy(gameObject);
-        }
+        //if (other.gameObject.CompareTag("Asteroid"))
+        //{
+        //    Destroy(gameObject);
+        //}
 
         if (other.gameObject.CompareTag("Shield"))
         {
             shield.SetActive(true);
-            StartCoroutine(ShieldLifeTime(shieldLifetime * Time.timeScale));
+            StartCoroutine(ShieldLifeTime(shieldLifetime));
             Destroy(other.gameObject);
         }
 
         if (other.gameObject.CompareTag("SpeedUp"))
         {
             Time.timeScale = 2.5f;
-            StartCoroutine(SpeedUp(shieldLifetime * Time.timeScale));
+            background.Party = true;
+            StartCoroutine(SpeedUp(speedUpTime * Time.timeScale));
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Reverse"))
+        {
+            reverse = true;
+            StartCoroutine(Reverse(reverseTime));
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("DoubleGun"))
+        {
+            doubleGun = true;
+            StartCoroutine(Reverse(doubleGunTime));
             Destroy(other.gameObject);
         }
     }
@@ -112,11 +179,24 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(lifestime);
         Time.timeScale = 1f;
+        background.Party = false;
     }
 
     public IEnumerator ShieldLifeTime(float lifestime)
     {
         yield return new WaitForSeconds(lifestime);
         shield.SetActive(false);
+    }
+
+    public IEnumerator Reverse(float lifestime)
+    {
+        yield return new WaitForSeconds(lifestime);
+        reverse = false;
+    }
+
+    public IEnumerator Doublegun(float lifestime)
+    {
+        yield return new WaitForSeconds(lifestime);
+        doubleGun = false;
     }
 }
