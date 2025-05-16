@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2442861950069001485}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 180
   thrustForce: 5
+  maxSpeed: 15
+  deceleration: 0.98
+  projectileSpeed: 10
+  projectilePrefab: {fileID: 0}
 --- !u!50 &2442861950069001485
 Rigidbody2D:
   serializedVersion: 5
