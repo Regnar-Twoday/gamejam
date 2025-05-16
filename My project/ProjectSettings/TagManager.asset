@@ -8,6 +8,8 @@ TagManager:
   - SpeedUp
   - Reverse
   - DoubleGun
+  - Asteroid
+  - Projectile
   layers:
   - Default
   - TransparentFX

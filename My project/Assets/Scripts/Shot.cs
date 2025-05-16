@@ -7,9 +7,10 @@ namespace Assets.Scripts
     [RequireComponent(typeof(Rigidbody2D))]
     public class Shot : MonoBehaviour
     {
-
+        public ScoreObject scoreObject;
         public float lifetime;
         public float speed;
+        
 
         [SerializeField] private CircleCollider2D collider;
         
@@ -38,6 +39,7 @@ namespace Assets.Scripts
         {
             if (other.gameObject.CompareTag("Asteroid"))
             {
+                scoreObject.AddToScore();
                 Destroy(other.gameObject);
                 Destroy(gameObject);
             }

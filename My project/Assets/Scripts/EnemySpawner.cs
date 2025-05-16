@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -7,12 +8,19 @@ namespace Assets.Scripts
 {
     [Header("Spawner Settings")]
     public GameObject enemyPrefab; // Assign your Enemy prefab here
-    public int numberOfEnemiesToSpawn = 10;
     public float spawnMargin = 2.0f; // How far outside the camera view to spawn
-    public float spawnInterval = 1.0f; // Time between spawns, 0 for instant spawn
+    public float spawnInterval = 0.5f; // Time between spawns, 0 for instant spawn
 
     [Header("Targeting")] // This helps organize the Inspector
     public Transform playerTransform;
+
+    [Header("Powerups")]
+    public GameObject speed; 
+    public GameObject reverse; 
+    public GameObject shield; 
+    public GameObject gun; 
+    
+    public List<GameObject> powerups = new List<GameObject>(); 
 
     [Header("Camera")]
     public Camera mainCamera; // Assign your main camera
@@ -22,6 +30,11 @@ namespace Assets.Scripts
 
     void Start()
     {
+        powerups.Add(speed);
+        powerups.Add(reverse);
+        powerups.Add(shield);
+        powerups.Add(gun);
+        
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -67,6 +80,8 @@ namespace Assets.Scripts
         {
             SpawnAllEnemiesAtOnce();
         }
+        
+        StartCoroutine(SpawnPowerups());
     }
 
     // Update can be removed if not used
@@ -122,6 +137,7 @@ namespace Assets.Scripts
             maxY = topRightWorld.y;
         }
     }
+    
 
     IEnumerator SpawnEnemiesWithDelay()
     {
@@ -134,7 +150,7 @@ namespace Assets.Scripts
 
     void SpawnAllEnemiesAtOnce()
     {
-        for (int i = 0; i < numberOfEnemiesToSpawn; i++)
+        while (true)
         {
             SpawnSingleEnemy();
         }
@@ -150,6 +166,7 @@ namespace Assets.Scripts
 
         Vector3 spawnPosition = GetRandomSpawnPositionOutsideBounds();
         GameObject newEnemyGO = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        spawnInterval *= 0.98f;
 
         Enemy enemyScript = newEnemyGO.GetComponent<Enemy>();
         if (enemyScript != null)
@@ -161,6 +178,28 @@ namespace Assets.Scripts
         {
             Debug.LogWarning("Spawned enemy prefab does not have an Enemy script component attached!", newEnemyGO);
         }
+    }
+
+    IEnumerator SpawnPowerups()
+    {
+        while (true)
+        {
+            createPowerups();
+        
+            yield return new WaitForSeconds(5);
+        }
+    }
+    void createPowerups()
+    {
+        if (powerups == null)
+        {
+            Debug.LogError("Cannot spawn powerups, prefab is null.", this);
+            return;
+        }
+
+        Vector3 spawnPosition = GetRandomSpawnPositionOutsideBounds();
+        Instantiate(powerups[Random.Range(0, 4)], spawnPosition, Quaternion.identity);
+        spawnInterval *= 0.98f;
     }
 
     Vector3 GetRandomSpawnPositionOutsideBounds()

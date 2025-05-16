@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9190255110714051119}
   - component: {fileID: 3403909195655617031}
   - component: {fileID: 6618238100256233498}
+  - component: {fileID: 5257470755005966221}
   m_Layer: 0
   m_Name: DoubleGun
   m_TagString: DoubleGun
@@ -124,3 +125,21 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &5257470755005966221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495884637586559819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a2df5a896747cea191c5fc00fcba93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  moveIn2D: 1
+  lifetime: 10
+  playerTarget: {fileID: 1099518370753780541, guid: fe8472e4338142742a7b2ffb29ebc026, type: 3}
+  aimSpreadAngle: 45
+  orientToMoveDirection: 1

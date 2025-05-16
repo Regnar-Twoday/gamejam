@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 15f;
     public float deceleration = 0.98f;
     public float projectileSpeed = 10f;
-    public float shieldLifetime = 8f;
+    public float shieldLifetime = 18f;
     public float speedUpTime = 8f;
     public float reverseTime = 10f;
     public float doubleGunTime = 10f;
@@ -19,18 +20,22 @@ public class PlayerController : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject shield;
     public BackgroundScript background;
+    public GameObject dead;
 
     [SerializeField] PolygonCollider2D collider;
 
     private Rigidbody2D rb;
 
+    public GameObject tint;
+
 
     private Camera mainCam;
     private float halfWidth;
     private float halfHeight;
-
+    public ScoreObject scoreObject;
     void Start()
     {
+        Time.timeScale = 1f;
         mainCam = Camera.main;
 
         // Get camera bounds in world units
@@ -39,6 +44,11 @@ public class PlayerController : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
+    }
+
+    private void OnEnable()
+    {
+        scoreObject.Reset();
     }
 
     void Update()
@@ -145,11 +155,13 @@ public class PlayerController : MonoBehaviour
             if (shield != null && shield.activeSelf)
             {
                 Destroy(other.gameObject);
-                
             }
             else
             {
                 Destroy(gameObject);
+                dead.SetActive(true);
+                
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
             
         }
@@ -164,8 +176,9 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("SpeedUp"))
         {
             Time.timeScale = 2.5f;
+            tint.SetActive(true);
             background.Party = true;
-            StartCoroutine(SpeedUp(speedUpTime * Time.timeScale));
+            StartCoroutine(SpeedUp(speedUpTime));
             Destroy(other.gameObject);
         }
 
@@ -179,7 +192,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("DoubleGun"))
         {
             doubleGun = true;
-            StartCoroutine(Reverse(doubleGunTime));
+            StartCoroutine(Doublegun(doubleGunTime));
             Destroy(other.gameObject);
         }
     }
@@ -188,6 +201,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(lifestime);
         Time.timeScale = 1f;
+        tint.SetActive(false);
         background.Party = false;
     }
 

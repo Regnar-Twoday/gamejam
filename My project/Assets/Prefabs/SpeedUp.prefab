@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3824383366021516420}
   - component: {fileID: 2554569467152220203}
-  - component: {fileID: 7609368709151137053}
   - component: {fileID: 7465791474860158602}
+  - component: {fileID: 5310858067430483458}
   m_Layer: 0
   m_Name: SpeedUp
   m_TagString: SpeedUp
@@ -89,18 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7609368709151137053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8227018277828842082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 193c7f07b02d66b4daada371a7514a83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &7465791474860158602
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -137,3 +125,21 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &5310858067430483458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8227018277828842082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a2df5a896747cea191c5fc00fcba93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  moveIn2D: 1
+  lifetime: 20
+  playerTarget: {fileID: 1099518370753780541, guid: fe8472e4338142742a7b2ffb29ebc026, type: 3}
+  aimSpreadAngle: 45
+  orientToMoveDirection: 1

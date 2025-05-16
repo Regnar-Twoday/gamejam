@@ -102,8 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1693fd16e11cece4091299d2dca09668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreObject: {fileID: 11400000, guid: 7f87f0bef04be49ddaf8785668ce52ac, type: 2}
   lifetime: 5
-  speed: 8
+  speed: 12
   collider: {fileID: 0}
 --- !u!58 &-3576826457260319617
 CircleCollider2D:

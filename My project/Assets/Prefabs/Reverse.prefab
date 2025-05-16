@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3034297450089931475}
   - component: {fileID: 8621490636478497376}
   - component: {fileID: 5813562163050636864}
+  - component: {fileID: 574878197183367405}
   m_Layer: 0
   m_Name: Reverse
   m_TagString: Reverse
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.17089105, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -124,3 +125,21 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &574878197183367405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074940371065011113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a2df5a896747cea191c5fc00fcba93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  moveIn2D: 1
+  lifetime: 10
+  playerTarget: {fileID: 1099518370753780541, guid: fe8472e4338142742a7b2ffb29ebc026, type: 3}
+  aimSpreadAngle: 45
+  orientToMoveDirection: 1
