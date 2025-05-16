@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 
 
 public class Enemy : MonoBehaviour
@@ -18,6 +20,7 @@ public class Enemy : MonoBehaviour
     public bool orientToMoveDirection = true;
     
     private Vector3 movementDirection;
+    
     
     void Start()
     {
@@ -61,13 +64,13 @@ public class Enemy : MonoBehaviour
             
             Vector3 tempDirectionToPlayer = playerTarget.position - transform.position;
             
-            if (tempDirectionToPlayer.sqrMagnitude > 0.001f) // Check if not at the exact same spot
+            if (tempDirectionToPlayer.sqrMagnitude > 0.001f)
             {
                 playerExistsAndIsDifferentPosition = true;
                 directionToPlayer = tempDirectionToPlayer;
                 if (moveIn2D)
                 {
-                    directionToPlayer.z = 0; // Ensure Z is zero for 2D calculations
+                    directionToPlayer.z = 0;
                 }
                 directionToPlayer.Normalize();
             }
@@ -80,7 +83,6 @@ public class Enemy : MonoBehaviour
         if (playerExistsAndIsDifferentPosition)
         {
             Debug.Log(gameObject.name + ": Player target is valid. Calculating biased direction. Spread: " + aimSpreadAngle, this);
-            // We have a valid direction to the player, now add random spread
             if (moveIn2D)
             {
                 // Get the angle of directionToPlayer
@@ -88,13 +90,12 @@ public class Enemy : MonoBehaviour
                 // Add random spread
                 float randomSpread = Random.Range(-aimSpreadAngle / 2f, aimSpreadAngle / 2f);
                 float finalAngle = angleToPlayer + randomSpread;
-
-                // Convert back to vector
+                
                 movementDirection = new Vector3(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad), 0f);
             }
 
         }
-        else // Player target not available or enemy is on player, so pick a completely random direction
+        else
         {
             Debug.Log(gameObject.name + ": Player target not valid or not found. Using fully random direction.", this);
             if (moveIn2D)
@@ -107,18 +108,15 @@ public class Enemy : MonoBehaviour
                 movementDirection = Random.onUnitSphere;
             }
         }
-
-        // Ensure movementDirection is always normalized and not zero
+        
         if (movementDirection.sqrMagnitude < 0.001f)
         {
-            movementDirection = moveIn2D ? Vector3.right : Vector3.forward; // Default safe direction
+            movementDirection = moveIn2D ? Vector3.right : Vector3.forward; 
              Debug.LogWarning(gameObject.name + ": movementDirection was zero, defaulted to " + movementDirection, this);
         }
         movementDirection.Normalize();
-        // Debug.Log(gameObject.name + ": Final movementDirection: " + movementDirection, this);
 
-
-        // Optional: Orient the enemy
+        
         if (orientToMoveDirection && movementDirection != Vector3.zero)
         {
             if (moveIn2D)
