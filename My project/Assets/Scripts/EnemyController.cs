@@ -1,5 +1,4 @@
-using Uni
-    tyEngine;
+using UnityEngine;
 
 public class RandomMover : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class RandomMover : MonoBehaviour
     // Add this variable to store the camera reference
     public Camera mainCamera;
 
-    public RigidBody rb;
+    public Rigidbody2D rb;
     void Start()
     {
         // Find and store the main camera
