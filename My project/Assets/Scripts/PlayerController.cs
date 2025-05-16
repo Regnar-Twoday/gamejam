@@ -140,10 +140,19 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //if (other.gameObject.CompareTag("Asteroid"))
-        //{
-        //    Destroy(gameObject);
-        //}
+        if (other.gameObject.CompareTag("Asteroid"))
+        {
+            if (shield != null && shield.activeSelf)
+            {
+                Destroy(other.gameObject);
+                
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
+        }
 
         if (other.gameObject.CompareTag("Shield"))
         {

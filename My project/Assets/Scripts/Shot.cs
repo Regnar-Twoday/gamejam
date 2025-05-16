@@ -1,16 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Shot : MonoBehaviour
     {
 
         public float lifetime;
         public float speed;
 
+        [SerializeField] private CircleCollider2D collider;
+        
+        private Rigidbody2D rb;
+
         void Start()
         {
+            rb = GetComponent<Rigidbody2D>();
+            rb.gravityScale = 0f;
             StartCoroutine(ShotLifeTime(lifetime));
         }
 
@@ -24,6 +32,15 @@ namespace Assets.Scripts
         {
             yield return new WaitForSeconds(lifestime);
             Destroy(gameObject);
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Asteroid"))
+            {
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }
