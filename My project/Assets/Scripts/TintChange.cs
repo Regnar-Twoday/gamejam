@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class TintChange : MonoBehaviour
@@ -7,6 +9,8 @@ public class TintChange : MonoBehaviour
     public Color blue = Color.blue;
     public Color yellow = Color.yellow;
     public Color green = Color.green;
+
+    public List<Color> colors = new();
 
     private SpriteRenderer spriteRenderer;
     private float timeElapsed;
